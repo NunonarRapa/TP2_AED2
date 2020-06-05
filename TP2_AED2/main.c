@@ -5,6 +5,7 @@
 #include "WorldCities/WorldCities.h"
 #define HASH_SIZE 50000
 
+/*Ler o ficheiro cidades e coloca-lo na hash*/
 void readcidades(FILE* fh, Cities** hash){
     char buf[200];
 	fgets(buf, 200, fh);
@@ -24,6 +25,7 @@ void readcidades(FILE* fh, Cities** hash){
     }
 }
 
+/*Ler o ficheiro WorldCities e coloca-lo na lista*/
 WorldCities* read(FILE* fh, WorldCities* worldCities){
     char buf[200];
 	fgets(buf, 200, fh);
@@ -43,6 +45,7 @@ WorldCities* read(FILE* fh, WorldCities* worldCities){
    return worldCities;
 }
 
+/*Verifica quantas cidades têm o mesmo nome*/
 void CheckMultipleCities(WorldCities* worldCities, char* city){
 
     WorldCities* aux = worldCities;
@@ -76,6 +79,7 @@ void CheckMultipleCities(WorldCities* worldCities, char* city){
     }
 }
 
+/*Verifica os destinos de uma cidade*/
 void WhereCanIGo(Cities** hash, WorldCities* worldCities, int id){
     Cities* cityy;
     CitiesEdges* edge;
@@ -104,6 +108,7 @@ void WhereCanIGo(Cities** hash, WorldCities* worldCities, int id){
     }
 }
 
+/*Lista as viagens de cidades com mais de 50k population para cidades com menos de 30k population*/
 void AllCities50kto30k(Cities** hash, WorldCities* worldCities){
 
     CitiesEdges* neighbours;
@@ -139,6 +144,7 @@ void AllCities50kto30k(Cities** hash, WorldCities* worldCities){
     
 }
 
+/*Verifica a cidade com mais destinos*/
 void FromWhereCanIGoToMoreCities(Cities** hash, WorldCities* worldCities){
     Cities* City = (Cities*) malloc(sizeof(Cities));
     Cities* aux;
@@ -184,6 +190,7 @@ void FromWhereCanIGoToMoreCities(Cities** hash, WorldCities* worldCities){
     }
 }
 
+/*Escreve os ID's da lista passada como argumento ao contrário*/
 void ReverseListValues(AuxRecord* lst, WorldCities* worldCities){
     AuxRecord* aux = lst;
     if (aux != NULL)
@@ -193,6 +200,7 @@ void ReverseListValues(AuxRecord* lst, WorldCities* worldCities){
     }    
 }
 
+/*Soma os costs da lista toda*/
 double PathCost(AuxRecord* lst){
     AuxRecord* aux = lst;
     double cost = 0;
@@ -204,83 +212,69 @@ double PathCost(AuxRecord* lst){
     return cost;
 }
 
-void display(Cities** hash, WorldCities* worldCities) {
-    int i = 0;
-	
-    for(i = 0; i < HASH_SIZE; i++) {
-	
-        if(hash[i] != NULL)
-            printf(" (%s,%d)\n", CheckCityWithID(worldCities, hash[i]->id), hash[i]->id);
-    }
-	
-    printf("\n");
-}
-
 int main()
 {
-    Cities** hash = HashNew();
-    WorldCities* worldCities = NULL;
-    int population, id, origin, target;
+    Cities** hash = HashNew(); /*Create hash, initializes the variables*/
+    WorldCities* worldCities = NULL; 
+    int population, id, origin, target, condition;
     double cost;
     char line[200], *city, *country;
     AuxRecord* path;
 
+    while (condition != 0)
+    {
+        FILE *fh  = fopen("cidadesPT.txt", "r"); /*Open for read only*/
+        if (!fh) { printf("Can't open file!\n"); exit(1); } 
+        readcidades(fh, hash);
+        fclose(fh);
 
-    FILE *fh  = fopen("cidadesPT.txt", "r"); /*Open for read only*/
+        fh  = fopen("worldcities.csv", "r"); /*Open for read only*/
+        if (!fh) { printf("Can't open file!\n"); exit(1); } 
+        worldCities = read(fh, worldCities);
+        fclose(fh);
 
-    if (!fh) { printf("Can't open file!\n"); exit(1); } 
+        printf("Escreva '1' para verificar se existem cidades com o mesmo nome\n");
+        printf("Escreva '2' para verificar os destinos de uma cidade\n");
+        printf("Escreva '3' para ver todas as viagens de cidades com mais de 50k de populacao para cidades com menos de 30k\n");
+        printf("Escreva '4' para ver a cidade com mais destinos\n");
+        printf("Escreva '5' para verificar o menor caminho entre duas cidades\n");
+        printf("Escreva '0' para sair do programa\n");
+        
+        switch (condition)
+        {
+        case '1':
+            char cityChoose[50];
+            printf("\nCity: ");
+            scanf("%s", cityChoose);
+            CheckMultipleCities(worldCities, cityChoose);
+            break;
+        case '2':
+            int idChoose;
+            printf("\nCity ID: ");
+            scanf("%d", &idChoose);
+            WhereCanIGo(hash, worldCities, idChoose);
+            break;
+        case '3':
+            AllCities50kto30k(hash, worldCities);
+            break;
+        case '4':
+            FromWhereCanIGoToMoreCities(hash, worldCities);
+            break;
+        case '5':
+            printf("\nOrigin CityID: ");
+            scanf("%d", &origin);
+            printf("\nDestination CityID: ");
+            scanf("%d", &target);
 
-    readcidades(fh, hash);
-
-    fclose(fh);
-
-
-
-    fh  = fopen("worldcities.csv", "r"); /*Open for read only*/
-
-    if (!fh) { printf("Can't open file!\n"); exit(1); } 
-
-    worldCities = read(fh, worldCities);
-
-    fclose(fh);
-
-    /*
-    char cityChoose[50];
-    printf("\nCity: ");
-    scanf("%s", cityChoose);
-    CheckMultipleCities(worldCities, cityChoose);
-    */
-
-    /*
-    int idChoose;
-    printf("\nCity ID: ");
-    scanf("%d", &idChoose);
-    WhereCanIGo(hash, worldCities, idChoose);
-    */
-
-    /*display(hash);*/
-
-    /*
-    AllCities50kto30k(hash, worldCities);
-    */
-    
-    /*
-    FromWhereCanIGoToMoreCities(hash, worldCities);
-    */
-
-    
-    printf("\nOrigin CityID: ");
-    scanf("%d", &origin);
-    
-    printf("\nDestination CityID: ");
-    scanf("%d", &target);
-
-    path = PathFind(hash, origin, target);
-
-    puts("");
-    cost = PathCost(path);
-    ReverseListValues(path, worldCities);
-    printf("\nDistancia/Custo da viagem: %.2lf\n", cost);
-    
+            path = PathFind(hash, origin, target);
+            puts("");
+            cost = PathCost(path);
+            ReverseListValues(path, worldCities);
+            printf("\nDistancia/Custo da viagem: %.2lf\n", cost);
+            break;
+        default:
+            break;
+        }
+    }
     return 0;
 }

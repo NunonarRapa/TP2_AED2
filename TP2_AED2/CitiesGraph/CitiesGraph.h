@@ -3,7 +3,7 @@
 #include "../CitiesEdges/CitiesEdges.h"
 
 
-typedef struct CitiesGraph{ /*Cities*/
+typedef struct CitiesGraph{ /*ID das cidades*/
     int id;
     CitiesEdges *edges;
     struct CitiesGraph *next_city;

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "WorldCities.h"
 
+/*Faz um Head-Insert dos dados na lista*/
 WorldCities* HeadInsert(WorldCities *lst, int id, char* city, char* country, int population){
     WorldCities* aux = (WorldCities*)malloc(sizeof(WorldCities));
     aux->city = strdup(city);
@@ -14,6 +15,7 @@ WorldCities* HeadInsert(WorldCities *lst, int id, char* city, char* country, int
     return aux;
 }
 
+/*Retorna o nome do país se tiver o mesmo ID*/
 char* CheckCountryWithID(WorldCities *lst, int id){
     WorldCities* aux = lst;
     while (aux)
@@ -27,6 +29,7 @@ char* CheckCountryWithID(WorldCities *lst, int id){
     return NULL;
 }
 
+/*Retorna o nome da cidade se tiver o mesmo ID*/
 char* CheckCityWithID(WorldCities *lst, int id){
     WorldCities* aux = lst;
     while (aux)
@@ -40,6 +43,7 @@ char* CheckCityWithID(WorldCities *lst, int id){
     return "City not found in worldcities.csv file";
 }
 
+/*Retorna a populaçao se tiver o mesmo ID*/
 int CheckPopulationWithID(WorldCities *lst, int id){
     WorldCities* aux = lst;
     while (aux)

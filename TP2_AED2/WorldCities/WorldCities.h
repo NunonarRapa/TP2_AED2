@@ -1,7 +1,7 @@
 #ifndef WCITYEDGES_H_
 #define WCITYEDGES_H_
 
-typedef struct WorldCities
+typedef struct WorldCities /*Lista das cidades do mundo*/
 {
     char* city;
     char* country;

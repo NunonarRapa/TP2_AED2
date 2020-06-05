@@ -47,6 +47,7 @@ void HashInsertEdge(Cities** hash, int id, int idDestino, double peso){
     hash[pos] = HashInsertEdgeCl(hash[pos], id, idDestino, peso);
 }
 
+/*Encontra o menor caminho entre duas cidades*/
 AuxRecord* PathFind(Cities **hash, int origin, int target) {
     AuxRecord *current = NULL;
 

@@ -3,7 +3,7 @@
 #include <string.h>
 #include "CitiesEdges.h"
 
-/* Head insert of incidences*/
+/*Head insert of CitiesEdges*/
 CitiesEdges* InsertIncidence(CitiesEdges *lst, int id, double peso){
     CitiesEdges* new = (CitiesEdges*)malloc(sizeof(CitiesEdges));
     CitiesEdges *aux, *aux1;

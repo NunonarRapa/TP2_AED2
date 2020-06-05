@@ -12,6 +12,7 @@ AuxRecord* NewAuxRecord(int id){
     return new;
 }
 
+/*Searches an ID on the list and returns the respective node or NULL, if it doesnt find*/
 AuxRecord* AuxRecSearchId(AuxRecord* lst, int id){
     AuxRecord* aux = lst;
     if (!lst) return NULL;
@@ -26,6 +27,7 @@ AuxRecord* AuxRecSearchId(AuxRecord* lst, int id){
     return NULL;
 }
 
+/*Inserts a AuxRecord on the list, sorted be cost*/
 AuxRecord* AuxRecSortedInsert(AuxRecord* lst, AuxRecord* destinationRecord){
     if (!lst || lst->cost > destinationRecord->cost) 
     {
@@ -43,6 +45,7 @@ AuxRecord* AuxRecSortedInsert(AuxRecord* lst, AuxRecord* destinationRecord){
     return lst;
 }
 
+/*Head-Insert to create the path on the list*/
 AuxRecord* PathHeadInsert(AuxRecord* path, int connection){
     AuxRecord* aux = (AuxRecord*)malloc(sizeof(AuxRecord));
     aux->id = connection;
