@@ -199,7 +199,7 @@ double PathCost(AuxRecord* lst){
     while (aux)
     {
         cost += aux->cost;
-        aux->next_rec;
+        aux = aux->next_rec;
     }
     return cost;
 }
