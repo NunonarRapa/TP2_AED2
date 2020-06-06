@@ -146,48 +146,44 @@ void AllCities50kto30k(Cities** hash, WorldCities* worldCities){
 
 /*Verifica a cidade com mais destinos*/
 void FromWhereCanIGoToMoreCities(Cities** hash, WorldCities* worldCities){
-    Cities* City = (Cities*) malloc(sizeof(Cities));
-    Cities* aux;
-    int i = 0, check = 0, counter = 0, multiple = 0;
+    int i = 0, f = 0, check = 0, arrayIDs[20];
     printf("Checking for the city with more trips possible...\n");
-    for(i = 0; i < HASH_SIZE; i++) {
+    for (i = 0; i <= 20; i++) arrayIDs[i] = 0;
+    for (i = 0; i < HASH_SIZE; i++) {
         if(hash[i] != NULL) {
-            counter = 0;
-            aux = City;
             while(hash[i]->edges){
-                counter++;
+                hash[i]->edgeCounter++;
                 hash[i]->edges = hash[i]->edges->next_edge;               
-            }
-            if (counter > check)
-            {
-                City->id = hash[i]->id;
-                City->next_city = NULL;
-            }
-            else if (counter == check)
-            {
-                while (aux->next_city != NULL)
-                {
-                    aux = aux->next_city;
-                }
-                aux->id = hash[i]->id;
-                aux->next_city = NULL;
-                multiple++;
-            }            
+            }     
         }
     }
-    if (multiple == 0)
+    for (i = 0; i < HASH_SIZE; i++)
     {
-        printf("%d,%s is the city with more different destinations", City->id, CheckCityWithID(worldCities, City->id));
-    }
-    else
-    {
-        while (City->next_city)
+        if (hash[i] != NULL)
         {
-            printf("%d,%s , ", City->id, CheckCityWithID(worldCities, City->id));
-            City = City->next_city;
-        }
-        printf("are the cities with more different destinations");
+            if (hash[i]->edgeCounter >= check)
+            {
+                for (f = 0; f <= 20; f++)
+                {
+                    if (arrayIDs[f] == 0)
+                    {
+                        arrayIDs[f] = hash[i]->id;
+                        check = hash[i]->edgeCounter;
+                        break;
+                    }
+                    
+                }
+            }            
+        }        
     }
+    for (i = 0; i <= 20; i++)
+    {
+        if (arrayIDs[i] != 0)
+        {
+            printf("%d %s\n", arrayIDs[i], CheckCityWithID(worldCities, arrayIDs[i]));
+        }
+    }
+    printf("is(are) the city(ies) with more destinations");
 }
 
 /*Escreve os ID's da lista passada como argumento ao contrário*/
@@ -216,9 +212,9 @@ int main()
 {
     Cities** hash = HashNew(); /*Create hash, initializes the variables*/
     WorldCities* worldCities = NULL; 
-    int population, id, origin, target, condition;
+    int origin, target, condition = -1, idChoose;
     double cost;
-    char line[200], *city, *country;
+    char cityChoose[50];
     AuxRecord* path;
 
     while (condition != 0)
@@ -233,34 +229,33 @@ int main()
         worldCities = read(fh, worldCities);
         fclose(fh);
 
-        printf("Escreva '1' para verificar se existem cidades com o mesmo nome\n");
+        printf("\n\nEscreva '1' para verificar se existem cidades com o mesmo nome\n");
         printf("Escreva '2' para verificar os destinos de uma cidade\n");
         printf("Escreva '3' para ver todas as viagens de cidades com mais de 50k de populacao para cidades com menos de 30k\n");
         printf("Escreva '4' para ver a cidade com mais destinos\n");
         printf("Escreva '5' para verificar o menor caminho entre duas cidades\n");
         printf("Escreva '0' para sair do programa\n");
+        scanf("%d", &condition);
         
         switch (condition)
         {
-        case '1':
-            char cityChoose[50];
+        case 1:
             printf("\nCity: ");
             scanf("%s", cityChoose);
             CheckMultipleCities(worldCities, cityChoose);
             break;
-        case '2':
-            int idChoose;
+        case 2:
             printf("\nCity ID: ");
             scanf("%d", &idChoose);
             WhereCanIGo(hash, worldCities, idChoose);
             break;
-        case '3':
+        case 3:
             AllCities50kto30k(hash, worldCities);
             break;
-        case '4':
+        case 4:
             FromWhereCanIGoToMoreCities(hash, worldCities);
             break;
-        case '5':
+        case 5:
             printf("\nOrigin CityID: ");
             scanf("%d", &origin);
             printf("\nDestination CityID: ");

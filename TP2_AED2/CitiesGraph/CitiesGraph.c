@@ -54,7 +54,7 @@ AuxRecord* PathFind(Cities **hash, int origin, int target) {
     /* open is sorted by cost */
     AuxRecord *open = NewAuxRecord(origin);
     AuxRecord *closed = NULL;
-    AuxRecord* path = NULL;
+    AuxRecord* path = (AuxRecord*)malloc(sizeof(AuxRecord));
     CitiesEdges *neighbours;
     double costSoFar = 0;
     while (open) {
@@ -97,10 +97,8 @@ AuxRecord* PathFind(Cities **hash, int origin, int target) {
     path->id = current->id; /*ERROR HERE SEGMENTATION FAULT CORE DUMPED*/
     printf("pathid %d\n", path->id);
     while(current->id != origin) {
-        PathHeadInsert(path, current->connection);
-
+        path = PathHeadInsert(path, current->connection);
         current = AuxRecSearchId(closed, current->connection);
     }
-    printf("pathid %d", path->id);
     return path;
 }

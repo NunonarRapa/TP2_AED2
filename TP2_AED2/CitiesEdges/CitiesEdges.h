@@ -9,6 +9,5 @@ typedef struct CitiesEdges{ /*Edges*/
 } CitiesEdges;
 
 CitiesEdges* InsertIncidence(CitiesEdges *lst, int id, double peso);
-extern char* strdup(const char*);
 
 #endif

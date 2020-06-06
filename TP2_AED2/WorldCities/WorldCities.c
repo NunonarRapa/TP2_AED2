@@ -22,11 +22,11 @@ char* CheckCountryWithID(WorldCities *lst, int id){
     {
         if (aux->id == id)
         {
-            return lst->country;
+            return aux->country;
         }
         aux = aux->next;
     }
-    return NULL;
+    return "Country not found in worldcities.csv file";
 }
 
 /*Retorna o nome da cidade se tiver o mesmo ID*/

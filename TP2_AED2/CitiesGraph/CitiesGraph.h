@@ -5,6 +5,7 @@
 
 typedef struct CitiesGraph{ /*ID das cidades*/
     int id;
+    int edgeCounter;
     CitiesEdges *edges;
     struct CitiesGraph *next_city;
 } Cities;
@@ -17,7 +18,6 @@ Cities** HashNew();
 Cities* HashInsertEdgeCl(Cities* lst, int id, int idDestino, double peso);
 void HashInsertEdge(Cities** hash, int id, int idDestino, double peso);
 AuxRecord *PathFind(Cities **hash, int origin, int destination);
-extern char* strdup(const char*);
 
 
 #endif

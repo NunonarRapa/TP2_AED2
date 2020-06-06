@@ -5,31 +5,22 @@
 
 /*Head insert of CitiesEdges*/
 CitiesEdges* InsertIncidence(CitiesEdges *lst, int id, double peso){
-    CitiesEdges* new = (CitiesEdges*)malloc(sizeof(CitiesEdges));
-    CitiesEdges *aux, *aux1;
-    new->id = id;
-    new->peso = peso;
-    if (!lst || new->id < lst->id)
+   
+    if (!lst || id < lst->id)
     {
+        CitiesEdges* new = (CitiesEdges*)malloc(sizeof(CitiesEdges));
+        new->id = id;
+        new->peso = peso;
         new->next_edge = lst;
-        return new;
+        lst = new;
+    }
+    else if(lst->id == id){
+        if(lst->peso > peso){
+            lst->peso = peso;
+        }
     }
     else {
-        aux1 = lst;
-        while (aux1->next_edge)
-        {
-            if (new->id == aux1->next_edge->id) {
-                aux1->next_edge->peso = new->peso;
-                return lst;
-            }
-            aux1 = aux1->next_edge;
-        }
-        aux = lst;
-        while (aux->next_edge && new->id > aux->next_edge->id) {
-            aux = aux->next_edge;
-        }
-        new->next_edge = aux->next_edge;
-        aux->next_edge = new;
+        lst->next_edge = InsertIncidence(lst->next_edge, id, peso);
     }
     return lst;
 }

@@ -13,6 +13,5 @@ AuxRecord *NewAuxRecord(int id);
 AuxRecord* AuxRecSearchId(AuxRecord* lst, int id);
 AuxRecord* AuxRecSortedInsert(AuxRecord* lst, AuxRecord* destinationRecord);
 AuxRecord* PathHeadInsert(AuxRecord* path, int connection);
-extern char* strdup(const char*);
 
 #endif
