@@ -24,3 +24,12 @@ CitiesEdges* InsertIncidence(CitiesEdges *lst, int id, double peso){
     }
     return lst;
 }
+
+
+/*Head-Insert to create the path on the list*/
+CitiesEdges* PathHeadInsert(CitiesEdges* path, int id){
+    CitiesEdges* aux = (CitiesEdges*)malloc(sizeof(CitiesEdges));
+    aux->id = id;
+    aux->next_edge = path;
+    return aux;
+}

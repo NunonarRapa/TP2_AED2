@@ -1,3 +1,4 @@
+/*Trabalho feito por*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -140,15 +141,13 @@ void AllCities50kto30k(Cities** hash, WorldCities* worldCities){
     {
         printf("There is %d trips from cities with at least 50k population to cities under 30k population\t", check);
     }
-    
-    
 }
 
 /*Verifica a cidade com mais destinos*/
 void FromWhereCanIGoToMoreCities(Cities** hash, WorldCities* worldCities){
-    int i = 0, f = 0, check = 0, arrayIDs[20];
+    int i = 0, f = 0, check = 0, arrayIDs[100];
     printf("Checking for the city with more trips possible...\n");
-    for (i = 0; i <= 20; i++) arrayIDs[i] = 0;
+    for (i = 0; i <= 100; i++) arrayIDs[i] = 0;
     for (i = 0; i < HASH_SIZE; i++) {
         if(hash[i] != NULL) {
             while(hash[i]->edges){
@@ -163,7 +162,7 @@ void FromWhereCanIGoToMoreCities(Cities** hash, WorldCities* worldCities){
         {
             if (hash[i]->edgeCounter >= check)
             {
-                for (f = 0; f <= 20; f++)
+                for (f = 0; f <= 100; f++)
                 {
                     if (arrayIDs[f] == 0)
                     {
@@ -176,7 +175,7 @@ void FromWhereCanIGoToMoreCities(Cities** hash, WorldCities* worldCities){
             }            
         }        
     }
-    for (i = 0; i <= 20; i++)
+    for (i = 0; i <= 100; i++)
     {
         if (arrayIDs[i] != 0)
         {
@@ -187,25 +186,13 @@ void FromWhereCanIGoToMoreCities(Cities** hash, WorldCities* worldCities){
 }
 
 /*Escreve os ID's da lista passada como argumento ao contrário*/
-void ReverseListValues(AuxRecord* lst, WorldCities* worldCities){
-    AuxRecord* aux = lst;
+void ReverseListValues(CitiesEdges* lst, WorldCities* worldCities){
+    CitiesEdges* aux = lst;
     if (aux != NULL)
     {
-        ReverseListValues(aux->next_rec, worldCities);
+        ReverseListValues(aux->next_edge, worldCities);
         printf("-> %d - %s", aux->id, CheckCityWithID(worldCities, aux->id));
     }    
-}
-
-/*Soma os costs da lista toda*/
-double PathCost(AuxRecord* lst){
-    AuxRecord* aux = lst;
-    double cost = 0;
-    while (aux)
-    {
-        cost += aux->cost;
-        aux = aux->next_rec;
-    }
-    return cost;
 }
 
 int main()
@@ -213,13 +200,12 @@ int main()
     Cities** hash = HashNew(); /*Create hash, initializes the variables*/
     WorldCities* worldCities = NULL; 
     int origin, target, condition = -1, idChoose;
-    double cost;
     char cityChoose[50];
-    AuxRecord* path;
+    CitiesEdges* path;
 
     while (condition != 0)
     {
-        FILE *fh  = fopen("cidadesPT.txt", "r"); /*Open for read only*/
+        FILE *fh  = fopen("cidadesIberia.txt", "r"); /*Open for read only*/
         if (!fh) { printf("Can't open file!\n"); exit(1); } 
         readcidades(fh, hash);
         fclose(fh);
@@ -263,9 +249,7 @@ int main()
 
             path = PathFind(hash, origin, target);
             puts("");
-            cost = PathCost(path);
             ReverseListValues(path, worldCities);
-            printf("\nDistancia/Custo da viagem: %.2lf\n", cost);
             break;
         default:
             break;

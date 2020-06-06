@@ -17,7 +17,7 @@ Cities* HashSearch(Cities** hash, int id);
 Cities** HashNew();
 Cities* HashInsertEdgeCl(Cities* lst, int id, int idDestino, double peso);
 void HashInsertEdge(Cities** hash, int id, int idDestino, double peso);
-AuxRecord *PathFind(Cities **hash, int origin, int destination);
+CitiesEdges *PathFind(Cities **hash, int origin, int destination);
 
 
 #endif

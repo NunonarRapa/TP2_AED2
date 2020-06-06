@@ -9,5 +9,6 @@ typedef struct CitiesEdges{ /*Edges*/
 } CitiesEdges;
 
 CitiesEdges* InsertIncidence(CitiesEdges *lst, int id, double peso);
+CitiesEdges* PathHeadInsert(CitiesEdges* path, int id);
 
 #endif

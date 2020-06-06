@@ -45,12 +45,12 @@ AuxRecord* AuxRecSortedInsert(AuxRecord* lst, AuxRecord* destinationRecord){
     return lst;
 }
 
-/*Head-Insert to create the path on the list*/
-AuxRecord* PathHeadInsert(AuxRecord* path, int connection){
-    AuxRecord* aux = (AuxRecord*)malloc(sizeof(AuxRecord));
-    aux->id = connection;
-    aux->cost = 0;
-    aux->connection = 0;
-    aux->next_rec = path;
-    return aux;
+AuxRecord* Find(AuxRecord* lst, int connection){
+    AuxRecord* aux = lst;
+    while (aux)
+    {
+        if (aux->id == connection) return aux;
+        aux = aux->next_rec;        
+    }
+    return NULL;
 }

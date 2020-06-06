@@ -9,9 +9,9 @@ typedef struct auxRecord{ /*DijkstraAux*/
 } AuxRecord;
 
 
-AuxRecord *NewAuxRecord(int id);
+AuxRecord* NewAuxRecord(int id);
 AuxRecord* AuxRecSearchId(AuxRecord* lst, int id);
 AuxRecord* AuxRecSortedInsert(AuxRecord* lst, AuxRecord* destinationRecord);
-AuxRecord* PathHeadInsert(AuxRecord* path, int connection);
+AuxRecord* Find(AuxRecord* lst, int connection);
 
 #endif

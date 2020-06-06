@@ -47,14 +47,14 @@ void HashInsertEdge(Cities** hash, int id, int idDestino, double peso){
     hash[pos] = HashInsertEdgeCl(hash[pos], id, idDestino, peso);
 }
 
-/*Encontra o menor caminho entre duas cidades*/
-AuxRecord* PathFind(Cities **hash, int origin, int target) {
+/*Encontra o menor caminho entre duas cidades - Inacab*/
+CitiesEdges* PathFind(Cities **hash, int origin, int target) {
     AuxRecord *current = NULL;
 
     /* open is sorted by cost */
     AuxRecord *open = NewAuxRecord(origin);
     AuxRecord *closed = NULL;
-    AuxRecord* path = (AuxRecord*)malloc(sizeof(AuxRecord));
+    CitiesEdges* path = NULL;
     CitiesEdges *neighbours;
     double costSoFar = 0;
     while (open) {
@@ -91,14 +91,17 @@ AuxRecord* PathFind(Cities **hash, int origin, int target) {
             closed = AuxRecSortedInsert(closed, current);
         }
     }
+    
     if(current->id != target) return NULL;
     printf("curr_id target %d %d\n", current->id, target);
+    
+    path = PathHeadInsert(path, current->id);
 
-    path->id = current->id; /*ERROR HERE SEGMENTATION FAULT CORE DUMPED*/
     printf("pathid %d\n", path->id);
     while(current->id != origin) {
-        path = PathHeadInsert(path, current->connection);
-        current = AuxRecSearchId(closed, current->connection);
+        current = Find(closed, current->connection);
+        path = PathHeadInsert(path, current->id);
     }
+
     return path;
 }
